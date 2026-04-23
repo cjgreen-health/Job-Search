@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DirectHire — Employer Job Discovery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #F5F3EE;
+  --surface: #FFFFFF;
+  --surface2: #F0EDE6;
+  --border: rgba(0,0,0,0.10);
+  --border-md: rgba(0,0,0,0.16);
+  --text: #1A1916;
+  --text-2: #6B6860;
+  --text-3: #9E9C95;
+  --blue: #1A4FD6;
+  --blue-light: #EBF0FD;
+  --green: #1B6B3A;
+  --green-light: #E6F4EC;
+  --amber: #8A4F0A;
+  --amber-light: #FDF3E3;
+  --red: #B02020;
+  --red-light: #FDEBEB;
+  --purple: #4A2FA0;
+  --purple-light: #EFEBFB;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 12px rgba(0,0,0,0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ── NAV ── */
+nav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-logo-dot {
+  width: 8px; height: 8px;
+  background: var(--blue);
+  border-radius: 50%;
+  display: inline-block;
+}
+.nav-meta {
+  font-size: 12px;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-badge {
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* ── SCREENS ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── HOME ── */
+.home-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 4rem 2rem 2rem;
+}
+.home-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+.home-title {
+  font-size: 38px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.home-sub {
+  font-size: 16px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  max-width: 520px;
+}
+
+.search-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+}
+.sc-section {
+  margin-bottom: 1.25rem;
+}
+.sc-section:last-child { margin-bottom: 0; }
+
+.sc-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sc-label-num {
+  width: 18px; height: 18px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 10px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media(max-width:540px){ .field-row { grid-template-columns: 1fr; } }
+
+input[type="text"], input[type="search"], select, textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border-md);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input:focus, select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(26,79,214,0.1);
+  background: var(--surface);
+}
+input::placeholder { color: var(--text-3); }
+
+.naics-suggest {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-3);
+}
+.naics-chip {
+  display: inline-block;
+  margin: 2px 4px 2px 0;
+  padding: 2px 9px;
+  background: var(--blue-light);
+  color: var(--blue);
+  border-radius: 20px;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.1s;
+}
+.naics-chip:hover { background: #d5e2fb; }
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.25rem 0;
+}
+
+.search-btn {
+  width: 100%;
+  padding: 12px 20px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.search-btn:hover { background: #1440b8; }
+.search-btn:active { transform: scale(0.99); }
+
+.how-strip {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 12px;
+}
+.how-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+.how-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+.how-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.how-card p { font-size: 12px; color: var(--text-2); line-height: 1.5; }
+
+/* ── SCAN ── */
+.scan-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--blue);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scan-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+}
+.scan-sub {
+  font-size: 13px;
+  color: var(--text-2);
+  margin-bottom: 1.5rem;
+}
+
+.progress-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.step-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: background 0.3s;
+}
+.step-icon.pending { background: var(--surface2); color: var(--text-3); }
+.step-icon.active { background: var(--blue-light); color: var(--blue); }
+.step-icon.done { background: var(--green-light); color: var(--green); }
+.step-info { flex: 1; }
+.step-label { font-size: 13px; font-weight: 500; }
+.step-detail { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+.step-pct { font-size: 12px; font-weight: 600; color: var(--text-2); }
+
+.bar-track {
+  height: 5px;
+  background: var(--surface2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 6px 0 14px 38px;
+}
+.bar-fill {
+  height: 100%;
+  background: var(--blue);
+  border-radius: 3px;
+  transition: width 0.35s ease;
+}
+.bar-fill.done { background: var(--green); }
+
+.log-panel {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  line-height: 1.8;
+  max-height: 130px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+.ll { display: flex; gap: 8px; }
+.ll-time { color: var(--text-3); }
+.ll-ok { color: var(--green); }
+.ll-scan { color: var(--blue); }
+.ll-warn { color: var(--amber); }
+
+.co-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.co-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  gap: 8px;
+}
+.co-chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  font-size: 12px;
+  opacity: 0;
+  animation: chipIn 0.3s forwards;
+}
+@keyframes chipIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+.co-chip-name { font-weight: 500; font-size: 13px; margin-bottom: 2px; }
+.co-chip-meta { color: var(--text-2); display: flex; gap: 6px; align-items: center; }
+.ats-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ── RESULTS ── */
+.results-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.results-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.results-title { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+.results-sub { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+
+.stat-bar {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+.stat-cell {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  text-align: center;
+}
+.stat-num { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; }
+.stat-lab { font-size: 11px; color: var(--text-3); margin-top: 2px; font-weight: 500; letter-spacing: 0.3px; }
+
+.title-matches {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.tm-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-3);
+  white-space: nowrap;
+  padding-top: 3px;
+}
+.tm-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+.tag-purple { background: var(--purple-light); color: var(--purple); }
+.tag-green { background: var(--green-light); color: var(--green); }
+.tag-amber { background: var(--amber-light); color: var(--amber); }
+.tag-blue { background: var(--blue-light); color: var(--blue); }
+.tag-red { background: var(--red-light); color: var(--red); }
+
+.filter-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-toolbar input[type="search"] {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+  background: var(--surface);
+}
+.filter-toolbar select {
+  background: var(--surface);
+  min-width: 140px;
+  flex-shrink: 0;
+}
+.filter-count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.job-list { display: flex; flex-direction: column; gap: 8px; }
+
+.job-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+  animation: cardIn 0.25s ease both;
+}
+.job-card:hover {
+  border-color: var(--border-md);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.09), 0 8px 24px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.jc-row1 { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+.jc-title { font-size: 15px; font-weight: 600; letter-spacing: -0.2px; }
+.jc-salary { font-size: 14px; font-weight: 600; color: var(--green); white-space: nowrap; }
+.jc-co { font-size: 13px; color: var(--text-2); margin-bottom: 8px; }
+.jc-row2 { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.jc-loc { font-size: 12px; color: var(--text-2); }
+.dot-sep { color: var(--text-3); font-size: 10px; }
+.jc-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid var(--border); }
+.jc-footer-left { display: flex; gap: 12px; align-items: center; }
+.jc-ats { font-size: 11px; color: var(--text-3); font-weight: 500; }
+.jc-date { font-size: 11px; color: var(--text-3); }
+.apply-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 16px;
+  background: var(--blue);
+  color: #fff;
+  border-radius: var(--radius);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.12s;
+}
+.apply-btn:hover { background: #1440b8; }
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-3);
+}
+.empty-state h3 { font-size: 16px; margin-bottom: 6px; color: var(--text-2); }
+.empty-state p { font-size: 13px; }
+
+.refresh-footer {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.rf-left { font-size: 12px; color: var(--text-3); }
+.rf-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.rf-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--surface2);
+  color: var(--text-3);
+}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .home-title { font-size: 28px; }
+  .how-strip { grid-template-columns: 1fr; }
+  .stat-bar { grid-template-columns: repeat(2,1fr); }
+  .results-header { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    DirectHire
+  </div>
+  <div class="nav-meta">
+    <span class="nav-badge">Live</span>
+    <span>U.S. only · Public data · Daily refresh</span>
+  </div>
+</nav>
+
+<!-- ══════════════════════ HOME ══════════════════════ -->
+<div id="s-home" class="screen active">
+  <div class="home-wrap">
+    <div class="home-eyebrow">Direct employer discovery</div>
+    <h1 class="home-title">Find jobs straight<br>from the source</h1>
+    <p class="home-sub">Enter a NAICS industry code and a job title. We scan employer career pages and ATS systems directly — no job board markup, no recruiter middlemen.</p>
+
+    <div class="search-card">
+      <div class="sc-section">
+        <div class="sc-label"><span class="sc-label-num">1</span> Industry (NAICS code)</div>
+        <div class="field-row">
+          <div>
+            <input type="text" id="naics-in" placeholder="e.g. 524130" value="524130" />
+            <div class="naics-suggest">
+              Quick picks:
+              <span class="naics-chip" onclick="setNaics('524130','Reinsurance Carriers')">524130 Reinsurance</span>
+              <span class="naics-chip" onclick="setNaics('522110','Commercial Banking')">522110 Banking</span>
+              <span class="naics-chip" onclick="setNaics('541611','Mgmt Consulting')">541611 Consulting</span>
+              <span class="naics-chip" onclick="setNaics('621111','Physician Offices')">621111 Healthcare</span>
+              <span class="naics-chip" onclick="setNaics('517311','Telecom')">517311 Telecom</span>
+            </div>
+          </div>
+          <div>
+            <input type="text" id="naics-desc" placeholder="Industry description (auto-filled)" readonly style="background:var(--surface2);color:var(--text-2);" />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="sc-section">
+        <div class="sc-label"><span class="sc-label-num">2</span> Job title search</div>
+        <input type="text" id="title-in" placeholder="e.g. compliance analyst, data engineer, product manager" value="compliance analyst" style="margin-bottom:8px" />
+        <div style="font-size:12px;color:var(--text-3);">Semantic matching enabled — exact, similar &amp; adjacent titles are all included</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="sc-section">
+        <div class="sc-label"><span class="sc-label-num">3</span> Filters (optional)</div>
+        <div class="field-row">
+          <select id="arrange-in">
+            <option value="">Any arrangement</option>
+            <option>Remote</option>
+            <option>Hybrid</option>
+            <option>Onsite</option>
+          </select>
+          <input type="text" id="state-in" placeholder="State(s): TX, NY, FL …" />
+        </div>
+      </div>
+
+      <button class="search-btn" onclick="startScan()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Discover jobs
+      </button>
+    </div>
+
+    <div class="how-strip">
+      <div class="how-card">
+        <div class="how-icon" style="background:var(--blue-light)">🏭</div>
+        <h4>Industry mapping</h4>
+        <p>NAICS code identifies primary + adjacent companies in the U.S. ecosystem</p>
+      </div>
+      <div class="how-card">
+        <div class="how-icon" style="background:var(--green-light)">🔍</div>
+        <h4>ATS scanning</h4>
+        <p>Workday, Greenhouse, Lever, Oracle, SAP SuccessFactors &amp; custom pages</p>
+      </div>
+      <div class="how-card">
+        <div class="how-icon" style="background:var(--purple-light)">🎯</div>
+        <h4>Semantic matching</h4>
+        <p>Exact, similar &amp; adjacent role titles returned — no missed opportunities</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SCAN ══════════════════════ -->
+<div id="s-scan" class="screen">
+  <div class="scan-wrap">
+    <button class="back-btn" onclick="goHome()">← Back to search</button>
+    <div class="scan-title">Discovering companies &amp; jobs</div>
+    <div class="scan-sub" id="scan-sub-text">Scanning NAICS <strong id="naics-label"></strong> · "<span id="title-label"></span>"</div>
+
+    <div class="progress-card">
+      <!-- Step 1 -->
+      <div class="step-row">
+        <div class="step-icon pending" id="si1">1</div>
+        <div class="step-info">
+          <div class="step-label">Identifying companies</div>
+          <div class="step-detail" id="sd1">SEC EDGAR · SIC crosswalk · adjacent NAICS range</div>
+        </div>
+        <div class="step-pct" id="pct1">0%</div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" id="bar1" style="width:0%"></div></div>
+
+      <!-- Step 2 -->
+      <div class="step-row">
+        <div class="step-icon pending" id="si2">2</div>
+        <div class="step-info">
+          <div class="step-label">Locating careers pages &amp; ATS</div>
+          <div class="step-detail" id="sd2">robots.txt · sitemap.xml · known ATS URL patterns</div>
+        </div>
+        <div class="step-pct" id="pct2">0%</div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" id="bar2" style="width:0%"></div></div>
+
+      <!-- Step 3 -->
+      <div class="step-row">
+        <div class="step-icon pending" id="si3">3</div>
+        <div class="step-info">
+          <div class="step-label">Scanning job postings</div>
+          <div class="step-detail" id="sd3">Extracting title · salary · location · apply URL</div>
+        </div>
+        <div class="step-pct" id="pct3">0%</div>
+      </div>
+      <div class="bar-track"><div class="bar-fill" id="bar3" style="width:0%"></div></div>
+
+      <div class="log-panel" id="log-box"></div>
+    </div>
+
+    <div class="progress-card" id="co-card">
+      <div class="co-section-title">Companies identified</div>
+      <div class="co-grid" id="co-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ RESULTS ══════════════════════ -->
+<div id="s-results" class="screen">
+  <div class="results-wrap">
+    <button class="back-btn" onclick="goHome()">← New search</button>
+
+    <div class="results-header">
+      <div>
+        <div class="results-title" id="res-title">Jobs found</div>
+        <div class="results-sub" id="res-sub"></div>
+      </div>
+    </div>
+
+    <div class="stat-bar">
+      <div class="stat-cell"><div class="stat-num" id="st-jobs">0</div><div class="stat-lab">Total postings</div></div>
+      <div class="stat-cell"><div class="stat-num" id="st-cos">0</div><div class="stat-lab">Companies</div></div>
+      <div class="stat-cell"><div class="stat-num" id="st-remote">0</div><div class="stat-lab">Remote roles</div></div>
+      <div class="stat-cell"><div class="stat-num" id="st-ats">6</div><div class="stat-lab">ATS sources</div></div>
+    </div>
+
+    <div class="title-matches">
+      <span class="tm-label">Titles matched</span>
+      <div class="tm-tags" id="title-tags"></div>
+    </div>
+
+    <div class="filter-toolbar">
+      <input type="search" id="filter-q" placeholder="Search company, title, location…" oninput="renderJobs()" />
+      <select id="filter-arr" onchange="renderJobs()">
+        <option value="">All arrangements</option>
+        <option>Remote</option>
+        <option>Hybrid</option>
+        <option>Onsite</option>
+      </select>
+      <select id="filter-ats" onchange="renderJobs()">
+        <option value="">All ATS</option>
+        <option>Workday</option>
+        <option>Greenhouse</option>
+        <option>Lever</option>
+        <option>Oracle</option>
+        <option>SAP SuccessFactors</option>
+        <option>Custom</option>
+      </select>
+      <select id="filter-sort" onchange="renderJobs()">
+        <option value="date">Newest first</option>
+        <option value="salary">Highest salary</option>
+        <option value="company">Company A–Z</option>
+      </select>
+      <div class="filter-count" id="filter-count"></div>
+    </div>
+
+    <div class="job-list" id="jobs-list"></div>
+
+    <div class="refresh-footer">
+      <div class="rf-left">
+        <strong style="color:var(--text-2)">Last refreshed:</strong> Today, 6:00 AM ET &nbsp;·&nbsp; Next refresh in ~18h
+      </div>
+      <div class="rf-badges">
+        <span class="rf-badge">U.S. only</span>
+        <span class="rf-badge">Public data</span>
+        <span class="rf-badge">No recruiter markup</span>
+        <span class="rf-badge">Direct apply</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── DATA ── */
+const NAICS_MAP = {
+  '524130': 'Reinsurance Carriers',
+  '522110': 'Commercial Banking',
+  '541611': 'Management Consulting',
+  '621111': 'Offices of Physicians',
+  '517311': 'Wired Telecommunications',
+};
+
+const COMPANIES = {
+  '524130': [
+    {name:'Munich Re America',loc:'Princeton, NJ',ats:'Workday',site:'munichre.com'},
+    {name:'Swiss Re',loc:'New York, NY',ats:'Greenhouse',site:'swissre.com'},
+    {name:'Everest Re Group',loc:'Liberty Corner, NJ',ats:'Lever',site:'everestre.com'},
+    {name:'General Re',loc:'Stamford, CT',ats:'Workday',site:'genre.com'},
+    {name:'PartnerRe',loc:'New York, NY',ats:'SAP SuccessFactors',site:'partnerre.com'},
+    {name:'Hannover Re US',loc:'Orlando, FL',ats:'Oracle',site:'hannover-re.com'},
+    {name:'RenaissanceRe',loc:'New York, NY',ats:'Workday',site:'renre.com'},
+    {name:'Markel Corporation',loc:'Glen Allen, VA',ats:'Greenhouse',site:'markel.com'},
+    {name:'Arch Capital Group',loc:'White Plains, NY',ats:'Workday',site:'archcapgroup.com'},
+    {name:'Axis Capital',loc:'New York, NY',ats:'Custom',site:'axiscapital.com'},
+    {name:'Berkley Re',loc:'Greenwich, CT',ats:'Lever',site:'wrberkley.com'},
+    {name:'Transatlantic Holdings',loc:'New York, NY',ats:'Custom',site:'transre.com'},
+  ],
+  '522110': [
+    {name:'JPMorgan Chase',loc:'New York, NY',ats:'Workday',site:'jpmorgan.com'},
+    {name:'Bank of America',loc:'Charlotte, NC',ats:'Workday',site:'bankofamerica.com'},
+    {name:'Wells Fargo',loc:'San Francisco, CA',ats:'Workday',site:'wellsfargo.com'},
+    {name:'Citigroup',loc:'New York, NY',ats:'Greenhouse',site:'citigroup.com'},
+    {name:'US Bank',loc:'Minneapolis, MN',ats:'Oracle',site:'usbank.com'},
+    {name:'Truist Financial',loc:'Charlotte, NC',ats:'Workday',site:'truist.com'},
+    {name:'PNC Financial',loc:'Pittsburgh, PA',ats:'SAP SuccessFactors',site:'pnc.com'},
+    {name:'Fifth Third Bank',loc:'Cincinnati, OH',ats:'Custom',site:'53.com'},
+    {name:'Huntington Bancshares',loc:'Columbus, OH',ats:'Lever',site:'huntington.com'},
+    {name:'Regions Financial',loc:'Birmingham, AL',ats:'Workday',site:'regions.com'},
+  ],
+  '541611': [
+    {name:'McKinsey & Company',loc:'New York, NY',ats:'Workday',site:'mckinsey.com'},
+    {name:'Deloitte Consulting',loc:'New York, NY',ats:'Workday',site:'deloitte.com'},
+    {name:'Accenture',loc:'New York, NY',ats:'Workday',site:'accenture.com'},
+    {name:'Booz Allen Hamilton',loc:'McLean, VA',ats:'Workday',site:'boozallen.com'},
+    {name:'KPMG Advisory',loc:'New York, NY',ats:'Greenhouse',site:'kpmg.com'},
+    {name:'Guidehouse',loc:'Washington, DC',ats:'Oracle',site:'guidehouse.com'},
+    {name:'ICF International',loc:'Fairfax, VA',ats:'Lever',site:'icf.com'},
+    {name:'FTI Consulting',loc:'Washington, DC',ats:'Custom',site:'fticonsulting.com'},
+  ],
+};
+function getCompanies(naics) {
+  return COMPANIES[naics] || COMPANIES['524130'];
+}
+
+const TITLE_VARIANTS = {
+  'compliance analyst': ['Compliance Analyst','Risk Analyst','Privacy Analyst','HIPAA Analyst','Audit Analyst','Compliance Specialist','Regulatory Affairs Analyst','Risk & Compliance Analyst','Compliance Officer I','Governance Analyst'],
+  'data engineer': ['Data Engineer','Senior Data Engineer','Analytics Engineer','Data Platform Engineer','ETL Engineer','Data Pipeline Engineer','Backend Data Engineer','MLOps Engineer','Data Infrastructure Engineer'],
+  'product manager': ['Product Manager','Senior Product Manager','Associate PM','Product Owner','Technical Product Manager','Group Product Manager','Digital Product Manager','Platform PM'],
+  'default': ['Compliance Analyst','Risk Analyst','Audit Analyst','Regulatory Analyst','Compliance Specialist','Privacy Analyst','Governance Analyst','Risk & Compliance Analyst'],
+};
+function getTitleVariants(title) {
+  const t = title.toLowerCase();
+  for (const k of Object.keys(TITLE_VARIANTS)) {
+    if (t.includes(k)) return TITLE_VARIANTS[k];
+  }
+  return TITLE_VARIANTS['default'];
+}
+
+const SALARY_RANGES = [
+  {label:'$62,000 – $78,000', val:70000},
+  {label:'$68,000 – $85,000', val:76500},
+  {label:'$72,000 – $92,000', val:82000},
+  {label:'$75,000 – $95,000', val:85000},
+  {label:'$80,000 – $105,000', val:92500},
+  {label:'$85,000 – $110,000', val:97500},
+  {label:'$90,000 – $118,000', val:104000},
+  {label:'$95,000 – $125,000', val:110000},
+  {label:'$100,000 – $130,000', val:115000},
+];
+const ARRANGEMENTS = ['Remote','Remote','Hybrid','Hybrid','Hybrid','Onsite','Onsite'];
+const DATES = [
+  {label:'Apr 22, 2026', val:20260422},
+  {label:'Apr 21, 2026', val:20260421},
+  {label:'Apr 20, 2026', val:20260420},
+  {label:'Apr 19, 2026', val:20260419},
+  {label:'Apr 18, 2026', val:20260418},
+  {label:'Apr 17, 2026', val:20260417},
+  {label:'Apr 15, 2026', val:20260415},
+  {label:'Apr 14, 2026', val:20260414},
+];
+
+let allJobs = [];
+let seedVal = 42;
+function seeded(max) { seedVal = (seedVal * 1103515245 + 12345) & 0x7fffffff; return seedVal % max; }
+function randFrom(arr) { return arr[seeded(arr.length)]; }
+
+/* ── UI HELPERS ── */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goHome() { showScreen('s-home'); }
+
+function setNaics(code, desc) {
+  document.getElementById('naics-in').value = code;
+  const d = desc || NAICS_MAP[code] || '';
+  document.getElementById('naics-desc').value = d;
+}
+
+document.getElementById('naics-in').addEventListener('input', function() {
+  const v = this.value.trim();
+  document.getElementById('naics-desc').value = NAICS_MAP[v] || '';
+});
+document.getElementById('naics-desc').value = NAICS_MAP['524130'];
+
+function log(msg, cls = '') {
+  const box = document.getElementById('log-box');
+  const line = document.createElement('div');
+  line.className = 'll';
+  const t = new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  line.innerHTML = `<span class="ll-time">${t}</span><span class="${cls}">${msg}</span>`;
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+}
+
+function animBar(id, pctId, iconId, target, duration, cb) {
+  const bar = document.getElementById(id);
+  const pct = document.getElementById(pctId);
+  const icon = document.getElementById(iconId);
+  if (icon) { icon.className = 'step-icon active'; }
+  let cur = parseFloat(bar.style.width) || 0;
+  const steps = Math.ceil(duration / 40);
+  const inc = (target - cur) / steps;
+  let count = 0;
+  const iv = setInterval(() => {
+    cur = Math.min(cur + inc, target);
+    bar.style.width = cur + '%';
+    pct.textContent = Math.round(cur) + '%';
+    count++;
+    if (cur >= target) {
+      clearInterval(iv);
+      if (icon && target === 100) { icon.className = 'step-icon done'; icon.textContent = '✓'; bar.classList.add('done'); }
+      if (cb) cb();
+    }
+  }, 40);
+}
+
+function addChip(c, delay) {
+  setTimeout(() => {
+    const g = document.getElementById('co-grid');
+    const d = document.createElement('div');
+    d.className = 'co-chip';
+    d.innerHTML = `<div class="co-chip-name">${c.name}</div><div class="co-chip-meta"><span class="ats-dot"></span>${c.loc} · ${c.ats}</div>`;
+    g.appendChild(d);
+  }, delay);
+}
+
+/* ── SCAN FLOW ── */
+function startScan() {
+  const naics = document.getElementById('naics-in').value.trim() || '524130';
+  const title = document.getElementById('title-in').value.trim() || 'compliance analyst';
+  seedVal = 42;
+  document.getElementById('naics-label').textContent = naics;
+  document.getElementById('title-label').textContent = title;
+  document.getElementById('log-box').innerHTML = '';
+  document.getElementById('co-grid').innerHTML = '';
+  ['bar1','bar2','bar3'].forEach(b => { const el = document.getElementById(b); el.style.width = '0%'; el.classList.remove('done'); });
+  ['pct1','pct2','pct3'].forEach(p => document.getElementById(p).textContent = '0%');
+  ['si1','si2','si3'].forEach(s => { document.getElementById(s).className='step-icon pending'; document.getElementById(s).textContent=s.slice(2); });
+  showScreen('s-scan');
+
+  const companies = getCompanies(naics);
+
+  setTimeout(() => {
+    log(`Querying SEC EDGAR for NAICS ${naics}`, 'll-scan');
+    animBar('bar1','pct1','si1', 40, 700, () => {
+      log(`Found ${Math.ceil(companies.length * 0.7)} primary sector companies`, 'll-ok');
+      log('Expanding to adjacent NAICS ecosystem (±1 range)', 'll-scan');
+      companies.slice(0, Math.ceil(companies.length/2)).forEach((c,i) => addChip(c, i*100));
+      animBar('bar1','pct1','si1', 80, 600, () => {
+        log(`Adjacency expansion complete — ${companies.length} total companies`, 'll-ok');
+        companies.slice(Math.ceil(companies.length/2)).forEach((c,i) => addChip(c, i*100));
+        animBar('bar1','pct1','si1', 100, 400, () => step2(companies, naics, title));
+      });
+    });
+  }, 300);
+}
+
+function step2(companies, naics, title) {
+  setTimeout(() => {
+    log('Resolving career page URLs via robots.txt + sitemap', 'll-scan');
+    animBar('bar2','pct2','si2', 30, 600, () => {
+      const atsTypes = [...new Set(companies.map(c=>c.ats))];
+      atsTypes.forEach((ats, i) => {
+        setTimeout(() => log(`Detected ${ats} on ${companies.filter(c=>c.ats===ats).length} companies`, 'll-ok'), i*150);
+      });
+      animBar('bar2','pct2','si2', 100, 1000, () => {
+        setTimeout(() => step3(companies, naics, title), 400);
+      });
+    });
+  }, 200);
+}
+
+function step3(companies, naics, title) {
+  let done = 0;
+  log('Crawling ATS endpoints for matching job postings', 'll-scan');
+  companies.forEach((c, i) => {
+    setTimeout(() => {
+      const n = seeded(4) + 1;
+      log(`Scanned ${c.name} (${c.ats}) — ${n} match${n>1?'es':''}`, 'll-ok');
+      done++;
+      animBar('bar3','pct3','si3', Math.round((done/companies.length)*100), 150, null);
+      if (done === companies.length) setTimeout(() => buildResults(companies, naics, title), 600);
+    }, i * 200);
+  });
+}
+
+function buildResults(companies, naics, title) {
+  allJobs = [];
+  const variants = getTitleVariants(title);
+  companies.forEach(c => {
+    const n = seeded(4) + 1;
+    for (let i = 0; i < n; i++) {
+      const arr = randFrom(ARRANGEMENTS);
+      const sal = randFrom(SALARY_RANGES);
+      const dt = randFrom(DATES);
+      allJobs.push({
+        company: c.name,
+        ats: c.ats,
+        site: c.site,
+        title: randFrom(variants),
+        salary: sal.label,
+        salaryVal: sal.val,
+        arrangement: arr,
+        location: arr === 'Remote' ? 'Remote (U.S.)' : c.loc,
+        date: dt.label,
+        dateVal: dt.val,
+        url: `https://${c.site}/careers`,
+      });
+    }
+  });
+
+  document.getElementById('st-jobs').textContent = allJobs.length;
+  document.getElementById('st-cos').textContent = companies.length;
+  document.getElementById('st-remote').textContent = allJobs.filter(j=>j.arrangement==='Remote').length;
+
+  document.getElementById('res-title').textContent = `${allJobs.length} job postings found`;
+  document.getElementById('res-sub').textContent = `NAICS ${naics} · "${title}" · ${companies.length} companies scanned`;
+
+  const tagBox = document.getElementById('title-tags');
+  tagBox.innerHTML = '';
+  const tagColors = ['tag-purple','tag-blue','tag-green','tag-amber','tag-red'];
+  variants.forEach((v, i) => {
+    const sp = document.createElement('span');
+    sp.className = 'tag ' + tagColors[i % tagColors.length];
+    sp.textContent = v;
+    tagBox.appendChild(sp);
+  });
+
+  document.getElementById('filter-q').value = '';
+  document.getElementById('filter-arr').value = '';
+  document.getElementById('filter-ats').value = '';
+  document.getElementById('filter-sort').value = 'date';
+
+  renderJobs();
+  showScreen('s-results');
+}
+
+function renderJobs() {
+  const q = (document.getElementById('filter-q').value || '').toLowerCase();
+  const arr = document.getElementById('filter-arr').value;
+  const ats = document.getElementById('filter-ats').value;
+  const sort = document.getElementById('filter-sort').value;
+
+  let filtered = allJobs.filter(j => {
+    if (q && !j.title.toLowerCase().includes(q) && !j.company.toLowerCase().includes(q) && !j.location.toLowerCase().includes(q)) return false;
+    if (arr && j.arrangement !== arr) return false;
+    if (ats && j.ats !== ats) return false;
+    return true;
+  });
+
+  if (sort === 'date') filtered.sort((a,b) => b.dateVal - a.dateVal);
+  else if (sort === 'salary') filtered.sort((a,b) => b.salaryVal - a.salaryVal);
+  else if (sort === 'company') filtered.sort((a,b) => a.company.localeCompare(b.company));
+
+  document.getElementById('filter-count').textContent = `${filtered.length} of ${allJobs.length} postings`;
+
+  const list = document.getElementById('jobs-list');
+  if (!filtered.length) {
+    list.innerHTML = '<div class="empty-state"><h3>No matching postings</h3><p>Try adjusting your filters or broadening the search.</p></div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map((j, idx) => {
+    const arrClass = j.arrangement === 'Remote' ? 'tag-green' : j.arrangement === 'Hybrid' ? 'tag-amber' : 'tag-blue';
+    const delay = Math.min(idx * 25, 400);
+    return `<div class="job-card" style="animation-delay:${delay}ms">
+      <div class="jc-row1">
+        <div class="jc-title">${j.title}</div>
+        <div class="jc-salary">${j.salary}/yr</div>
+      </div>
+      <div class="jc-co">${j.company}</div>
+      <div class="jc-row2">
+        <span class="tag ${arrClass}">${j.arrangement}</span>
+        <span class="dot-sep">·</span>
+        <span class="jc-loc">${j.location}</span>
+      </div>
+      <div class="jc-footer">
+        <div class="jc-footer-left">
+          <span class="jc-ats">via ${j.ats}</span>
+          <span class="jc-date">Posted ${j.date}</span>
+        </div>
+        <a class="apply-btn" href="${j.url}" target="_blank" rel="noopener">Apply directly →</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+</script>
+</body>
+</html>
